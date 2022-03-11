@@ -26,7 +26,7 @@ let
     ${cfg.seahubExtraConf}
   '';
 
-  seafRoot = "/var/lib/seafile"; # hardcode it due to dynamicuser
+  seafRoot = "/data/seafile"; # hardcode it due to dynamicuser
   ccnetDir = "${seafRoot}/ccnet";
   dataDir = "${seafRoot}/data";
   seahubDir = "${seafRoot}/seahub";
@@ -180,7 +180,7 @@ in {
         serviceConfig = securityOptions // {
           User = "seafile";
           Group = "seafile";
-          DynamicUser = true;
+          DynamicUser = false;
           StateDirectory = "seafile";
           RuntimeDirectory = "seafile";
           LogsDirectory = "seafile";
@@ -242,7 +242,7 @@ in {
         serviceConfig = securityOptions // {
           User = "seafile";
           Group = "seafile";
-          DynamicUser = true;
+          DynamicUser = false;
           RuntimeDirectory = "seahub";
           StateDirectory = "seafile";
           LogsDirectory = "seafile";
