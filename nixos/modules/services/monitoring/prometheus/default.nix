@@ -9,7 +9,7 @@ let
     (lib.isBool cfg.checkConfig && cfg.checkConfig)
       || cfg.checkConfig == "syntax-only";
 
-  workingDir = "/var/lib/" + cfg.stateDir;
+  workingDir = "/nix/data/sets/telemetry/prometheus";
 
   triggerReload = pkgs.writeShellScriptBin "trigger-reload-prometheus" ''
     PATH="${makeBinPath (with pkgs; [ systemd ])}"
@@ -62,6 +62,7 @@ let
     promtoolCheck "check config ${lib.optionalString (cfg.checkConfig == "syntax-only") "--syntax-only"}" "prometheus.yml" yml;
 
   cmdlineArgs = cfg.extraFlags ++ [
+    "--storage.tsdb.path=${workingDir}/"
     "--config.file=${
       if cfg.enableReload
       then "/etc/prometheus/prometheus.yaml"
