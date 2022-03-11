@@ -5,7 +5,7 @@ with lib;
 let
   cfg = config.services.prometheus;
 
-  workingDir = "/var/lib/" + cfg.stateDir;
+  workingDir = "/nix/data/sets/prometheus";
 
   prometheusYmlOut = "${workingDir}/prometheus-substituted.yaml";
 
@@ -66,7 +66,7 @@ let
     promtoolCheck "check config" "prometheus.yml" yml;
 
   cmdlineArgs = cfg.extraFlags ++ [
-    "--storage.tsdb.path=${workingDir}/data/"
+    "--storage.tsdb.path=${workingDir}/"
     "--config.file=${
       if cfg.enableReload
       then "/etc/prometheus/prometheus.yaml"
