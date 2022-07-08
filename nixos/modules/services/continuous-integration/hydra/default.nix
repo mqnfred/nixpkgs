@@ -6,7 +6,7 @@ let
 
   cfg = config.services.hydra;
 
-  baseDir = "/var/lib/hydra";
+  baseDir = "/nix/data/sets/hydra";
 
   hydraConf = pkgs.writeScript "hydra.conf" cfg.extraConfig;
 
@@ -204,7 +204,7 @@ in
         type = types.listOf types.path;
         default = optional (config.nix.buildMachines != []) "/etc/nix/machines";
         defaultText = literalExpression ''optional (config.nix.buildMachines != []) "/etc/nix/machines"'';
-        example = [ "/etc/nix/machines" "/var/lib/hydra/provisioner/machines" ];
+        example = [ "/etc/nix/machines" "/nix/data/sets/hydra/provisioner/machines" ];
         description = lib.mdDoc "List of files containing build machines.";
       };
 
@@ -479,7 +479,7 @@ in
       { path = [ pkgs.bzip2 ];
         script =
           ''
-            find /var/lib/hydra/build-logs -type f -name "*.drv" -mtime +3 -size +0c | xargs -r bzip2 -v -f
+            find /nix/data/sets/hydra/build-logs -type f -name "*.drv" -mtime +3 -size +0c | xargs -r bzip2 -v -f
           '';
         startAt = "Sun 01:45";
       };
