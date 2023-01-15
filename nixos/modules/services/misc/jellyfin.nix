@@ -61,8 +61,8 @@ in
         CacheDirectory = "jellyfin";
         CacheDirectoryMode = "0700";
         UMask = "0077";
-        WorkingDirectory = "/var/lib/jellyfin";
-        ExecStart = "${cfg.package}/bin/jellyfin --datadir '/var/lib/${StateDirectory}' --cachedir '/var/cache/${CacheDirectory}'";
+        WorkingDirectory = "/nix/data/sets/zepiratedata/jellyfin";
+        ExecStart = "${cfg.package}/bin/jellyfin --datadir '/nix/data/sets/zepiratedata/jellyfin' --cachedir '/var/cache/${CacheDirectory}'";
         Restart = "on-failure";
         TimeoutSec = 15;
         SuccessExitStatus = ["0" "143"];
