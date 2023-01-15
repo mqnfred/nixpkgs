@@ -100,18 +100,22 @@ in
         wants = [ "network-online.target" ];
         wantedBy = [ "multi-user.target" ];
 
-        # This is mostly follows: https://github.com/jellyfin/jellyfin/blob/master/fedora/jellyfin.service
-        # Upstream also disable some hardenings when running in LXC, we do the same with the isContainer option
-        serviceConfig = {
-          Type = "simple";
-          User = cfg.user;
-          Group = cfg.group;
-          UMask = "0077";
-          WorkingDirectory = cfg.dataDir;
-          ExecStart = "${getExe cfg.package} --datadir '${cfg.dataDir}' --configdir '${cfg.configDir}' --cachedir '${cfg.cacheDir}' --logdir '${cfg.logDir}'";
-          Restart = "on-failure";
-          TimeoutSec = 15;
-          SuccessExitStatus = ["0" "143"];
+      # This is mostly follows: https://github.com/jellyfin/jellyfin/blob/master/fedora/jellyfin.service
+      # Upstream also disable some hardenings when running in LXC, we do the same with the isContainer option
+      serviceConfig = rec {
+        Type = "simple";
+        User = cfg.user;
+        Group = cfg.group;
+        StateDirectory = "jellyfin";
+        StateDirectoryMode = "0700";
+        CacheDirectory = "jellyfin";
+        CacheDirectoryMode = "0700";
+        UMask = "0077";
+        WorkingDirectory = "/nix/data/sets/zepiratedata/jellyfin";
+        ExecStart = "${getExe cfg.package}/bin/jellyfin --datadir '/nix/data/sets/zepiratedata/jellyfin' --cachedir '/var/cache/${CacheDirectory}'";
+        Restart = "on-failure";
+        TimeoutSec = 15;
+        SuccessExitStatus = ["0" "143"];
 
           # Security options:
           NoNewPrivileges = true;
